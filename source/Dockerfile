@@ -9,7 +9,6 @@ FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION
 
 # Defines build arguments for the versions of ComfyUI and ComfyUI Manager to use
 ARG COMFYUI_VERSION=0.22.0
-ARG COMFYUI_MANAGER_VERSION=4.2.1
 
 # Installs Git, because ComfyUI and the ComfyUI Manager are installed by cloning their respective Git repositories
 RUN apt-get update --assume-yes && \
@@ -25,20 +24,12 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git /opt/comfyui && \
     cd /opt/comfyui && \
     git checkout "v${COMFYUI_VERSION}"
 
-# Clones the ComfyUI Manager repository and checks out the latest release; ComfyUI Manager is an extension for ComfyUI that enables users to install
-# custom nodes and download models directly from the ComfyUI interface; instead of installing it to "/opt/comfyui/custom_nodes/ComfyUI-Manager", which
-# is the directory it is meant to be installed in, it is installed to its own directory; the entrypoint will symlink the directory to the correct
-# location upon startup; the reason for this is that the ComfyUI Manager must be installed in the same directory that it installs custom nodes to, but
-# this directory is mounted as a volume, so that the custom nodes are not installed inside of the container and are not lost when the container is
-# removed; this way, the custom nodes are installed on the host machine
-RUN git clone https://github.com/Comfy-Org/ComfyUI-Manager.git /opt/comfyui-manager && \
-    cd /opt/comfyui-manager && \
-    git checkout ${COMFYUI_MANAGER_VERSION}
+# Removed ComfyUI Manager installation as it's now bundled with ComfyUI Main Repo
 
 # Installs the required Python packages for both ComfyUI and the ComfyUI Manager
 RUN pip install \
     --requirement /opt/comfyui/requirements.txt \
-    --requirement /opt/comfyui-manager/requirements.txt
+    --requirement /opt/comfyui/manager_requirements.txt
 
 # Sets the working directory to the ComfyUI directory
 WORKDIR /opt/comfyui
