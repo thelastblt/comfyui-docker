@@ -15,7 +15,8 @@ RUN apt-get update --assume-yes && \
     apt-get install --assume-yes \
         git \
         sudo \
-        libgl1-mesa-glx \
+        libgl1 \
+        libglx-mesa0 \
         libglib2.0-0 && \
     rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
 
