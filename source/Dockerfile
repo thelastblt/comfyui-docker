@@ -1,7 +1,7 @@
 
 # Defines build arguments for the versions of PyTorch, CUDA, and cuDNN to use
 ARG PYTORCH_VERSION=2.12.0
-ARG CUDA_VERSION=13.2
+ARG CUDA_VERSION=13.0
 ARG CUDNN_VERSION=9
 
 # This image is based on the latest official PyTorch image, because it already contains CUDA, CuDNN, and PyTorch
