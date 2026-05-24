@@ -28,7 +28,7 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git /opt/comfyui && \
 # Removed ComfyUI Manager installation as it's now bundled with ComfyUI Main Repo
 
 # Installs the required Python packages for both ComfyUI and the ComfyUI Manager
-RUN pip install \
+RUN pip install --break-system-packages \
     --requirement /opt/comfyui/requirements.txt \
     --requirement /opt/comfyui/manager_requirements.txt
 
