@@ -15,6 +15,9 @@
 - Added additional model directories based on updated ComfyUI
 - Added '--enable-manager' flag to have ComfyUI Manager included on startup
 
+
+# Original Repo lecode-official/comfyui-docker
+
 ## v0.6.3 (January 9, 2026)
 
 - This is another emergency release to fix an issue in v0.6.2 where the ComfyUI Docker image failed to build, because the build arguments for the versions of ComfyUI and ComfyUI Manager were defined before the `FROM` instruction in the Dockerfile. This only caused an issue now, because the "v" prefix in the ComfyUI version (e.g., "v0.8.2") was removed and then interpolated directly into the `git checkout` command, which led Git to fail with an error stating that the path spec "v" does not exist. The build arguments for the ComfyUI and ComfyUI Manager versions have now been moved to be defined after the `FROM` instruction in the Dockerfile.
