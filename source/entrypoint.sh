@@ -3,6 +3,8 @@
 # Creates the directories for the models inside of the volume that is mounted from the host
 echo "Creating directories for models..."
 MODEL_DIRECTORIES=(
+    "audio_encoders"
+    "background_removal"
     "checkpoints"
     "clip"
     "clip_vision"
@@ -11,9 +13,14 @@ MODEL_DIRECTORIES=(
     "diffusers"
     "diffusion_models"
     "embeddings"
+    "frame_interpolation"
+    "geometry_estimation"
     "gligen"
     "hypernetworks"
+    "latent_upscale_models"
     "loras"
+    "model_patches"
+    "optical_flow"
     "photomaker"
     "style_models"
     "text_encoders"
