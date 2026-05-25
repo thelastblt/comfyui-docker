@@ -228,7 +228,7 @@ jobs:
           # but the authors label is not included and the default value for the title label is the repository name
           labels: |
             org.opencontainers.image.title=ComfyUI Docker
-            org.opencontainers.image.authors=David Neumann <david.neumann@lecode.de>
+            org.opencontainers.image.authors=thelastblt
 
       # Builds the Docker image for ComfyUI; if the build succeeds, it is pushed to the GitHub Container Registry; the "context" parameter specifies
       # the build context, which is the directory that contains the Dockerfile; the tags and labels extracted in the previous step are used to tag
