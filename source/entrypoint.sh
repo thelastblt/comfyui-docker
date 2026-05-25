@@ -43,7 +43,7 @@ do
         CUSTOM_NODE_NAME=${CUSTOM_NODE_DIRECTORY##*/}
         CUSTOM_NODE_NAME=${CUSTOM_NODE_NAME//[-_]/ }
         echo "Installing requirements for $CUSTOM_NODE_NAME..."
-        pip install --requirement "$CUSTOM_NODE_DIRECTORY/requirements.txt"
+        pip install --break-system-packages --requirement "$CUSTOM_NODE_DIRECTORY/requirements.txt"
     fi
 done
 
@@ -80,17 +80,4 @@ else
             --listen 0.0.0.0 \
             --disable-auto-launch \
             "$@"
-fi
-
-# When the server is launched with --listen and is bound to a network range other than the local 127. range, 
-# allowing remote IP access, the security levels are altered. To allow for custom nodes install, Need to update 
-# the setting network mode to 'personal_cloud' to allow you to have the same access as 'normal' security level 
-# does on a local install.
-sed -i 's/network_mode = .*/network_mode = personal_cloud/' user/__manager/config.ini
-
-if [ $? -eq 0 ]; then
-    echo "Successfully updated network_mode to personal_cloud in config.ini"
-else
-    echo "Failed to update network_mode in config.ini. Custom nodes installation, updates, and model installations may not work properly."
-    exit 1
 fi
