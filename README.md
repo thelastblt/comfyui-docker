@@ -73,9 +73,6 @@ To completely remove the container from your system, you can use the following c
 docker rm comfyui
 ```
 
-> [!WARNING]
-> While the custom nodes themselves are installed outside of the container, their requirements are installed inside of the container. This means that removing the container will remove the installed requirements and all outputs you have not saved manually. When the container is started again, the requirements will be automatically installed, but this may, depending on the number of custom nodes and their requirements, take some time.
-
 ### Installing & Running Using Docker Compose
 
 Instead of using `docker run`, you can use the provided [`compose.yml`](compose.yml) in this repository to make running, managing and updating ComfyUI Docker easier.
@@ -140,6 +137,29 @@ To apply the changes, you have to recreate the container:
 ```shell
 docker compose up --detach --force-recreate
 ```
+
+## Custom Nodes
+When the server is launched with --listen and is bound to a network range other than the local 127. range, allowing remote IP access, the security levels are altered. To allow for custom nodes install, you need to update either the setting network mode or security level to allow you to have the same access as 'normal' security level does on a local install. This folder isn't created until first launch so we need to wait until the container is up to update the config.ini file. 
+
+```shell
+docker exec -it comfyui sed -i 's/network_mode = .*/network_mode = personal_cloud/' user/__manager/config.ini
+# This will allow you to install nodes and update ComfyUI.
+docker restart comfyui
+# Restart the container for the changes to take effect.
+```
+
+```shell
+docker exec -it comfyui sed -i 's/security_level = .*/security_level = weak/' user/__manager/config.ini
+# This will allow you full access.
+docker restart comfyui
+# Restart the container for the changes to take effect.
+```
+
+See details for each category from the [ComfyUI Docs here](https://github.com/Comfy-Org/ComfyUI-Manager/tree/manager-v4#security-policy).
+
+> [!WARNING]
+> While the custom nodes themselves are installed outside of the container, their requirements are installed inside of the container. This means that removing the container will remove the installed requirements and all outputs you have not saved manually. When the container is started again, the requirements will be automatically installed, but this may, depending on the number of custom nodes and their requirements, take some time.
+
 
 ## Available Image Tags
 
