@@ -59,8 +59,8 @@ done
 if [ -z "$USER_ID" ] || [ -z "$GROUP_ID" ];
 then
     echo "Running container as $USER..."
-    exec /opt/conda/bin/python main.py \
-        --enable-manager
+    exec python main.py \
+        --enable-manager \
         --port 8188 \
         --listen 0.0.0.0 \
         --disable-auto-launch \
@@ -74,8 +74,8 @@ else
 
     echo "Running container as comfyui-user ($USER_ID:$GROUP_ID)..."
     sudo --set-home --preserve-env=PATH --user \#$USER_ID \
-        /opt/conda/bin/python main.py \
-            --enable-manager
+        python main.py \
+            --enable-manager \
             --port 8188 \
             --listen 0.0.0.0 \
             --disable-auto-launch \
