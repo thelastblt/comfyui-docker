@@ -42,7 +42,7 @@ EXPOSE 8188
 
 # Adds a healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=45s --retries=3 \
-  CMD curl -f http://localhost:8188/ || exit 1
+  CMD curl -fsSI http://localhost:8188/ || exit 1
 
 # Adds the startup script to the container; the startup script will create all necessary directories in the models and custom nodes volumes that were
 # mounted to the container and symlink the ComfyUI Manager to the correct directory; it will also create a user with the same UID and GID as the user
