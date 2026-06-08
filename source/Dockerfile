@@ -15,6 +15,7 @@ RUN apt-get update --assume-yes && \
     apt-get install --assume-yes \
         git \
         sudo \
+        curl \
         libgl1 \
         libglx-mesa0 \
         libglib2.0-0 && \
@@ -38,6 +39,10 @@ WORKDIR /opt/comfyui
 # Exposes the default port of ComfyUI (this is not actually exposing the port to the host machine, but it is good practice to include it as metadata,
 # so that the user knows which port to publish)
 EXPOSE 8188
+
+# Adds a healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=45s --retries=3 \
+  CMD curl -f http://localhost:8188/ || exit 1
 
 # Adds the startup script to the container; the startup script will create all necessary directories in the models and custom nodes volumes that were
 # mounted to the container and symlink the ComfyUI Manager to the correct directory; it will also create a user with the same UID and GID as the user
