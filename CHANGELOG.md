@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.1 Release (June 8, 2026)
+- Adding HealthCheck to DockerFile
+
+## v0.1.0 Release (June 8, 2026)
+- Updating ComfyUI to v0.24.0
+
 ## v0.0.3 Pre-Release (May 24, 2026)
 - Updating config.ini security file to allow for custom node installation.
 
