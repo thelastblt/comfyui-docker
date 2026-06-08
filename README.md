@@ -184,7 +184,7 @@ To update ComfyUI Docker to the latest version you have to first stop the runnin
 docker stop comfyui
 docker rm comfyui
 
-docker pull ghcr.io/lecode-official/comfyui-docker:latest
+docker pull ghcr.io/thelastblt/comfyui-docker:latest
 docker image prune # Optionally remove dangling images
 
 docker run \
@@ -199,7 +199,7 @@ docker run \
     --publish 8188:8188 \
     --runtime nvidia \
     --gpus all \
-    ghcr.io/lecode-official/comfyui-docker:latest
+    ghcr.io/thelastblt/comfyui-docker:latest
 ```
 
 ### Updating Using Docker Compose
@@ -217,7 +217,7 @@ docker compose up --detach
 If you want to use the bleeding edge development version of the Docker image, you can also clone the repository and build the image yourself:
 
 ```shell
-git clone https://github.com/lecode-official/comfyui-docker.git
+git clone https://github.com/thelastblt/comfyui-docker.git
 cd comfyui-docker
 docker build --tag comfyui-docker:latest source
 ```
