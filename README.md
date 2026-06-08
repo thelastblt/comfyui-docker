@@ -107,7 +107,7 @@ echo "GROUP_ID=$(id -g)" >> .env
 After this, you can start ComfyUI Docker using Docker Compose:
 
 ```shell
-docker compose up --detach
+docker compose up -d
 ```
 
 If the ComfyUI Docker image is not available locally, it will be pulled automatically. This will start ComfyUI in the background. The --detach flag causes the container to run in the background. You can then navigate to [localhost:8188](http://localhost:8188) to access ComfyUI.
@@ -135,7 +135,7 @@ command: ["--enable-cors-header", "*"]
 To apply the changes, you have to recreate the container:
 
 ```shell
-docker compose up --detach --force-recreate
+docker compose up -d --force-recreate
 ```
 
 ## Custom Nodes
@@ -172,7 +172,7 @@ The ComfyUI Docker image is available with different tags. The available tags ar
 - `sha-<short-commit-sha>`: These tags point to ComfyUI Docker that were build from the specific commit. They will always use the versions of ComfyUI Docker, ComfyUI, ComfyUI Manager, and PyTorch that were the most recent at the time of the image build. It will not always use the most recent version of CUDA and cuDNN available at the time of the build, but may instead use a slightly older, but more broadly compatible version.
 
 > [!WARNING]
-> For releases prior to v0.6.1, only a single PyTorch, CUDA and cuDNN version combination was available and the image tags did not include the PyTorch, CUDA and cuDNN versions. Starting from v0.6.1, multiple combinations of PyTorch, CUDA and cuDNN versions are built and made available. Please refer to the [Changelog](CHANGELOG.md) for more information.
+> I only do testing on the latest image tag. Typically that is running the latest stable version of ComfyUI and Pytorch/Cuda. If you run into issues running other tags, please open an issue.
 
 ## Updating
 
@@ -209,7 +209,7 @@ To update ComfyUI Docker using Docker Compose, you have to stop the service firs
 ```shell
 docker compose down
 docker compose pull
-docker compose up --detach
+docker compose up -d
 ```
 
 ## Building
