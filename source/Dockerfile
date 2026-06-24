@@ -1,6 +1,6 @@
 
 # Defines build arguments for the versions of PyTorch, CUDA, and cuDNN to use
-ARG PYTORCH_VERSION=2.12.0
+ARG PYTORCH_VERSION=2.12.1
 ARG CUDA_VERSION=13.0
 ARG CUDNN_VERSION=9
 
@@ -8,7 +8,7 @@ ARG CUDNN_VERSION=9
 FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime
 
 # Defines build arguments for the versions of ComfyUI and ComfyUI Manager to use
-ARG COMFYUI_VERSION=0.24.0
+ARG COMFYUI_VERSION=0.26.0
 
 # Installs Git, because ComfyUI and the ComfyUI Manager are installed by cloning their respective Git repositories
 RUN apt-get update --assume-yes && \
@@ -29,7 +29,7 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git /opt/comfyui && \
 # Removed ComfyUI Manager installation as it's now bundled with ComfyUI Main Repo
 
 # Installs the required Python packages for both ComfyUI and the ComfyUI Manager
-RUN pip install --break-system-packages \
+RUN pip install --break-system-packages --no-cache-dir \
     --requirement /opt/comfyui/requirements.txt \
     --requirement /opt/comfyui/manager_requirements.txt
 

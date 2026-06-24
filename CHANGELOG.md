@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.0 Release (June 18, 2026)
+- Updating ComfyUI to v0.25.0
+- Updating Pytorch to 2.12.1
+   
+## v0.1.2 Release (June 8, 2026)
+- Reducing image size by cleaning up python cache
+
 ## v0.1.1 Release (June 8, 2026)
 - Adding HealthCheck to DockerFile
 

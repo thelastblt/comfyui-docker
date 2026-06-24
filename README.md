@@ -24,6 +24,7 @@ docker run \
     --volume "<path/to/models/folder>:/opt/comfyui/models:rw" \
     --volume "<path/to/custom/nodes/folder>:/opt/comfyui/custom_nodes:rw" \
     --volume "<path/to/output/folder>:/opt/comfyui/output:rw" \
+    --volume "<path/to/workflows/folder>:/opt/comfyui/user/default/workflows:rw" \
     --publish 8188:8188 \
     --runtime nvidia \
     --gpus all \
@@ -48,6 +49,7 @@ docker run \
     --volume "<path/to/models/folder>:/opt/comfyui/models:rw" \
     --volume "<path/to/custom/nodes/folder>:/opt/comfyui/custom_nodes:rw" \
     --volume "<path/to/output/folder>:/opt/comfyui/output:rw" \
+    --volume "<path/to/workflows/folder>:/opt/comfyui/user/default/workflows:rw" \
     --publish 8188:8188 \
     --runtime nvidia \
     --gpus all \
@@ -196,6 +198,7 @@ docker run \
     --volume "<path/to/models/folder>:/opt/comfyui/models:rw" \
     --volume "<path/to/custom/nodes/folder>:/opt/comfyui/custom_nodes:rw" \
     --volume "<path/to/output/folder>:/opt/comfyui/output:rw" \
+    --volume "<path/to/workflows/folder>:/opt/comfyui/user/default/workflows:rw" \
     --publish 8188:8188 \
     --runtime nvidia \
     --gpus all \
@@ -234,6 +237,7 @@ docker run \
     --volume "<path/to/models/folder>:/opt/comfyui/models:rw" \
     --volume "<path/to/custom/nodes/folder>:/opt/comfyui/custom_nodes:rw" \
     --volume "<path/to/output/folder>:/opt/comfyui/output:rw" \
+    --volume "<path/to/workflows/folder>:/opt/comfyui/user/default/workflows:rw" \
     --publish 8188:8188 \
     --runtime nvidia \
     --gpus all \
