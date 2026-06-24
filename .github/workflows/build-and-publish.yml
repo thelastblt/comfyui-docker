@@ -27,6 +27,10 @@ jobs:
     # This job will run on a GitHub runner with the latest version of Ubuntu, which is a good default choice
     runs-on: ubuntu-latest
 
+    # Sets the minimal permissions granted to the `GITHUB_TOKEN` for this job; `contents: read` is required for actions/checkout
+    permissions:
+      contents: read
+
     # The first job outputs a matrix of version combinations that is used in the next job to build multiple ComfyUI Docker images with different
     # CUDA and cuDNN versions
     outputs:
