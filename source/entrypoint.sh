@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Activates the virtual environment, which contains all the Python packages required by ComfyUI and the ComfyUI Manager
+source /opt/venv/bin/activate
+
 # Creates the directories for the models inside of the volume that is mounted from the host
 echo "Creating directories for models..."
 MODEL_DIRECTORIES=(
@@ -43,7 +46,7 @@ do
         CUSTOM_NODE_NAME=${CUSTOM_NODE_DIRECTORY##*/}
         CUSTOM_NODE_NAME=${CUSTOM_NODE_NAME//[-_]/ }
         echo "Installing requirements for $CUSTOM_NODE_NAME..."
-        pip install --break-system-packages --requirement "$CUSTOM_NODE_DIRECTORY/requirements.txt"
+        pip install --no-cache-dir --requirement "$CUSTOM_NODE_DIRECTORY/requirements.txt"
     fi
 done
 
@@ -73,8 +76,9 @@ else
     export PATH=$PATH:/home/comfyui-user/.local/bin
 
     echo "Running container as comfyui-user ($USER_ID:$GROUP_ID)..."
-    sudo --set-home --preserve-env=PATH --user \#$USER_ID \
-        python main.py \
+    chown --recursive $USER_ID:$GROUP_ID /opt/venv
+    sudo --set-home --preserve-env=PATH,VIRTUAL_ENV --user \#$USER_ID \
+        /opt/venv/bin/python main.py \
             --enable-manager \
             --port 8188 \
             --listen 0.0.0.0 \
