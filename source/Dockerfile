@@ -16,6 +16,7 @@ RUN apt-get update --assume-yes && \
         git \
         sudo \
         curl \
+        python3.12-venv \
         libgl1 \
         libglx-mesa0 \
         libglib2.0-0 && \
@@ -29,7 +30,8 @@ RUN git clone https://github.com/Comfy-Org/ComfyUI.git /opt/comfyui && \
 # Removed ComfyUI Manager installation as it's now bundled with ComfyUI Main Repo
 
 # Installs the required Python packages for both ComfyUI and the ComfyUI Manager
-RUN pip install --break-system-packages --no-cache-dir \
+RUN python -m venv /opt/venv && \
+    /opt/venv/bin/pip install --no-cache-dir \
     --requirement /opt/comfyui/requirements.txt \
     --requirement /opt/comfyui/manager_requirements.txt
 
@@ -41,7 +43,7 @@ WORKDIR /opt/comfyui
 EXPOSE 8188
 
 # Adds a healthcheck
-HEALTHCHECK --interval=30s --timeout=10s --start-period=45s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
   CMD curl -fsSI http://localhost:8188/ || exit 1
 
 # Adds the startup script to the container; the startup script will create all necessary directories in the models and custom nodes volumes that were
