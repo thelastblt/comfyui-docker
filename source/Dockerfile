@@ -1,14 +1,14 @@
 
 # Defines build arguments for the versions of PyTorch, CUDA, and cuDNN to use
-ARG PYTORCH_VERSION=2.14.1
-ARG CUDA_VERSION=13.0
+ARG PYTORCH_VERSION=2.15.0
+ARG CUDA_VERSION=13.4
 ARG CUDNN_VERSION=9
 
 # This image is based on the latest official PyTorch image, because it already contains CUDA, CuDNN, and PyTorch
 FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime
 
 # Defines build arguments for the versions of ComfyUI and ComfyUI Manager to use
-ARG COMFYUI_VERSION=0.38.0
+ARG COMFYUI_VERSION=0.43.0
 
 # Installs Git, because ComfyUI and the ComfyUI Manager are installed by cloning their respective Git repositories
 RUN apt-get update --assume-yes && \
