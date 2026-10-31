@@ -50,6 +50,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         gosu \
         curl \
+        python3.12-venv \
         libgl1 \
         libglx-mesa0 \
         libglib2.0-0 \
