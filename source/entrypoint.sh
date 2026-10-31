@@ -1,87 +1,49 @@
 #!/bin/bash
+set -euo pipefail
 
-# Activates the virtual environment, which contains all the Python packages required by ComfyUI and the ComfyUI Manager
-source /opt/venv/bin/activate
+# Restore the standard model folder skeleton into the (possibly empty) mounted
+# volume. The skeleton is the repo's own models/ tree, captured at build time,
+# so new model types ship automatically on rebuild — no list to keep in sync.
+# -a = preserve attributes, -R = recursive, --update=none = never overwrite existing files
+echo "Checking model directories..."
+mkdir -p /opt/comfyui/models
+cp -aR --update=none /opt/comfyui-models-template/. /opt/comfyui/models/
 
-# Creates the directories for the models inside of the volume that is mounted from the host
-echo "Creating directories for models..."
-MODEL_DIRECTORIES=(
-    "audio_encoders"
-    "background_removal"
-    "checkpoints"
-    "clip"
-    "clip_vision"
-    "configs"
-    "controlnet"
-    "diffusers"
-    "diffusion_models"
-    "embeddings"
-    "frame_interpolation"
-    "geometry_estimation"
-    "gligen"
-    "hypernetworks"
-    "latent_upscale_models"
-    "loras"
-    "model_patches"
-    "optical_flow"
-    "photomaker"
-    "style_models"
-    "text_encoders"
-    "unet"
-    "upscale_models"
-    "vae"
-    "vae_approx"
-)
-for MODEL_DIRECTORY in ${MODEL_DIRECTORIES[@]}; do
-    mkdir -p /opt/comfyui/models/$MODEL_DIRECTORY
-done
+# Custom node requirements: install once per node (marker file), so restarts
+# are fast. Set SKIP_CUSTOM_NODE_REQUIREMENTS=1 to disable entirely.
+if [ "${SKIP_CUSTOM_NODE_REQUIREMENTS:-0}" != "1" ]; then
+    echo "Checking custom node requirements..."
+    for node in /opt/comfyui/custom_nodes/*/; do
+        [ -f "$node/requirements.txt" ] && [ ! -f "$node/.requirements-installed" ] || continue
+        name=$(basename "$node")
+        echo "Installing requirements for $name..."
+        if /opt/venv/bin/pip install --no-cache-dir --requirement "$node/requirements.txt"; then
+            touch "$node/.requirements-installed"
+        fi
+    done
+fi
 
-# The custom nodes that were installed using the ComfyUI Manager may have requirements of their own, which are not installed when the container is
-# started for the first time; this loops over all custom nodes and installs the requirements of each custom node
-echo "Installing requirements for custom nodes..."
-for CUSTOM_NODE_DIRECTORY in /opt/comfyui/custom_nodes/*;
-do
-    if [ -f "$CUSTOM_NODE_DIRECTORY/requirements.txt" ];
-    then
-        CUSTOM_NODE_NAME=${CUSTOM_NODE_DIRECTORY##*/}
-        CUSTOM_NODE_NAME=${CUSTOM_NODE_NAME//[-_]/ }
-        echo "Installing requirements for $CUSTOM_NODE_NAME..."
-        pip install --no-cache-dir --requirement "$CUSTOM_NODE_DIRECTORY/requirements.txt"
-    fi
-done
+# Shared flags; any extra user args (e.g. --enable-cors-header) are appended
+ARGS=( --enable-manager --port 8188 --listen 0.0.0.0 --disable-auto-launch )
 
-# Under normal circumstances, the container would be run as the root user, which is not ideal, because the files that are created by the container in
-# the volumes mounted from the host, i.e., custom nodes and models downloaded by the ComfyUI Manager, are owned by the root user; the user can specify
-# the user ID and group ID of the host user as environment variables when starting the container; if these environment variables are set, a non-root
-# user with the specified user ID and group ID is created, and ComfyUI is run as this user; ComfyUI is started at its default port (--port 8188); the
-# IP address is changed from localhost to 0.0.0.0 (--listen 0.0.0.0), because Docker is only forwarding traffic to the IP address it assigns to the
-# container, which is unknown at build time; listening to 0.0.0.0 means that ComfyUI listens to all incoming traffic; the auto-launch feature is
-# disabled (--disable-auto-launch), because we do not want (nor is it possible) to open a browser window in a Docker container; to allow users to pass
-# in additional command line arguments ("$@"), for example, --enable-cors-header to enable CORS and allow external web apps to interact with ComfyUI
-# in this container
-if [ -z "$USER_ID" ] || [ -z "$GROUP_ID" ];
-then
-    echo "Running container as $USER..."
-    exec python main.py \
-        --enable-manager \
-        --port 8188 \
-        --listen 0.0.0.0 \
-        --disable-auto-launch \
-        "$@"
+if [ -z "${USER_ID:-}" ] || [ -z "${GROUP_ID:-}" ]; then
+    echo "Running ComfyUI as root..."
+    exec /opt/venv/bin/python main.py "${ARGS[@]}" "$@"
+fi
+
+echo "Preparing user ${USER_ID}:${GROUP_ID}..."
+getent group "$GROUP_ID" >/dev/null || groupadd --gid "$GROUP_ID" comfyui
+id -u "$USER_ID" >/dev/null || useradd --uid "$USER_ID" --gid "$GROUP_ID" --create-home comfyui
+
+# Recursive chown only when ownership actually differs — avoids re-walking a
+# large mounted volume on every start
+if [ "$(stat -c '%u:%g' /opt/comfyui)" != "${USER_ID}:${GROUP_ID}" ]; then
+    chown -R "${USER_ID}:${GROUP_ID}" /opt/comfyui /opt/venv
+fi
+
+if command -v gosu >/dev/null 2>&1; then
+    exec gosu "${USER_ID}:${GROUP_ID}" /opt/venv/bin/python main.py "${ARGS[@]}" "$@"
 else
-    echo "Creating non-root user..."
-    getent group $GROUP_ID > /dev/null 2>&1 || groupadd --gid $GROUP_ID comfyui-user
-    id -u $USER_ID > /dev/null 2>&1 || useradd --uid $USER_ID --gid $GROUP_ID --create-home comfyui-user
-    chown --recursive $USER_ID:$GROUP_ID /opt/comfyui
-    export PATH=$PATH:/home/comfyui-user/.local/bin
-
-    echo "Running container as comfyui-user ($USER_ID:$GROUP_ID)..."
-    chown --recursive $USER_ID:$GROUP_ID /opt/venv
-    sudo --set-home --preserve-env=PATH,VIRTUAL_ENV --user \#$USER_ID \
-        /opt/venv/bin/python main.py \
-            --enable-manager \
-            --port 8188 \
-            --listen 0.0.0.0 \
-            --disable-auto-launch \
-            "$@"
+    exec setpriv --reuid="$USER_ID" --regid="$GROUP_ID" --init-groups \
+        /opt/venv/bin/python main.py "${ARGS[@]}" "$@"
 fi
