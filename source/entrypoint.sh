@@ -11,14 +11,30 @@ cp -aR --update=none /opt/comfyui-models-template/. /opt/comfyui/models/
 
 # Custom node requirements: install once per node (marker file), so restarts
 # are fast. Set SKIP_CUSTOM_NODE_REQUIREMENTS=1 to disable entirely.
+#
+# Markers live INSIDE the venv (/opt/venv), not in the node directory:
+# the venv is baked into the image (fresh on every rebuild) while
+# custom_nodes is a host volume that outlives rebuilds. A marker on the
+# volume survived image updates and made the fresh venv skip installs
+# entirely (e.g. "No module named 'cv2'"). Keying the marker on the
+# sha256 of requirements.txt also re-installs when a manager update
+# changes a node's requirements.
+REQ_MARKERS=/opt/venv/.custom-node-requirements
 if [ "${SKIP_CUSTOM_NODE_REQUIREMENTS:-0}" != "1" ]; then
     echo "Checking custom node requirements..."
+    mkdir -p "$REQ_MARKERS"
     for node in /opt/comfyui/custom_nodes/*/; do
-        [ -f "$node/requirements.txt" ] && [ ! -f "$node/.requirements-installed" ] || continue
+        [ -f "$node/requirements.txt" ] || continue
         name=$(basename "$node")
+        rm -f "$node/.requirements-installed"   # legacy marker, no longer used
+        hash=$(sha256sum "$node/requirements.txt" | cut -d' ' -f1)
+        marker="$REQ_MARKERS/$name"
+        if [ -f "$marker" ] && [ "$(cat "$marker")" = "$hash" ]; then
+            continue
+        fi
         echo "Installing requirements for $name..."
         if /opt/venv/bin/pip install --no-cache-dir --requirement "$node/requirements.txt"; then
-            touch "$node/.requirements-installed"
+            echo "$hash" > "$marker"
         fi
     done
 fi
