@@ -4,7 +4,7 @@ ARG CUDA_VERSION=13.4
 ARG CUDNN_VERSION=9
 FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime AS builder
 
-ARG COMFYUI_VERSION=0.43.0
+ARG COMFYUI_VERSION=0.44.0
 ENV DEBIAN_FRONTEND=noninteractive
 
 # git: fetch ComfyUI; python3.12-venv: only needed to *create* the venv
