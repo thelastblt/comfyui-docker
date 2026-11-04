@@ -62,6 +62,13 @@ WORKDIR /opt/comfyui
 COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /build  /opt/comfyui
 
+# ComfyUI-Manager creates user/__manager/config.ini only on first start, with
+# network_mode=public. The server listens on 0.0.0.0, so the manager treats it
+# as non-local and blocks install/update actions inside the container until
+# network_mode=personal_cloud. Seed the config at build time so in-container
+# node updates work out of the box instead of sed-ing the file after boot.
+COPY config.ini /opt/comfyui/user/__manager/config.ini
+
 # A host volume mounted at /opt/comfyui/models hides the tree that ships in
 # the image, so keep a pristine copy of the repo's models/ skeleton (empty
 # folders + .gitkeep placeholders) for the entrypoint to restore.
