@@ -1,6 +1,6 @@
 # Contributors
 
-The original project was initially created and is maintained by [David Neumann](@lecode-official) at https://github.com/lecode-official/comfyui-docker. The following people (in alphabetical order) have contributed in various ways to the development of ComfyUI Docker. Their contributions are greatly appreciated.
+The original project was initially created by [David Neumann](@lecode-official) at https://github.com/lecode-official/comfyui-docker. The following people (in alphabetical order) have contributed in various ways to the development of that original ComfyUI Docker project. Their contributions are greatly appreciated.
 
 - [Alex Marinov](@alex-marinov) ([#31](https://github.com/lecode-official/comfyui-docker/pull/31))
 - [Alex Reynolds](@primlock) ([#22](https://github.com/lecode-official/comfyui-docker/pull/22))
@@ -8,4 +8,4 @@ The original project was initially created and is maintained by [David Neumann](
 - [Mustafa Hamade](@Mustafa-Hamade) ([#20](https://github.com/lecode-official/comfyui-docker/issues/20))
 - [Patrick Kranz](@LokiMidgard) ([#21](https://github.com/lecode-official/comfyui-docker/pull/21), [#29](https://github.com/lecode-official/comfyui-docker/issues/29))
 
-This project is an unofficial fork of by [thelastblt](@thelastblt) for testing and education purposes. 
+This project is an unofficial fork by [thelastblt](@thelastblt) for my own usage. 
