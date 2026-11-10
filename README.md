@@ -1,4 +1,5 @@
-# ComfyUI Docker
+> [!WARNING]
+> This read me is in the process of being rewritten. 
 
 This is a Docker image for [ComfyUI](https://www.comfy.org/), which makes it extremely easy to run ComfyUI on Linux and Windows WSL2. The [ComfyUI Manager](https://github.com/Comfy-Org/ComfyUI-Manager) extension is included in the ComfyUI install now.
 
