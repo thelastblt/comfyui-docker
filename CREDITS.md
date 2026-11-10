@@ -1,4 +1,4 @@
-# Contributors
+# Credits
 
 ## 🛠️ Fork Maintainer
 - [thelastblt](@thelastblt) — Maintenance and updates for this fork.
