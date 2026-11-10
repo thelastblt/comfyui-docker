@@ -1,32 +1,49 @@
 # Changelog
 
-## v0.2.0 Release (June 18, 2026)
-- Updating ComfyUI to v0.25.0
-- Updating Pytorch to 2.12.1
-   
-## v0.1.2 Release (June 8, 2026)
-- Reducing image size by cleaning up python cache
+## [0.3.0] - 2026-06-24
+### Added
+- Updated documentation to include workflows folder.
+### Changed
+- Bumping ComfyUI Version to v0.26.0.
 
-## v0.1.1 Release (June 8, 2026)
-- Adding HealthCheck to DockerFile
+## [0.2.0] - 2026-06-18
+### Changed
+- Bumping ComfyUI Version to v0.25.0.
+- Bumping Pytorch Version to 2.12.1.
 
-## v0.1.0 Release (June 8, 2026)
-- Updating ComfyUI to v0.24.0
+## [0.1.2] - 2026-06-08
+### Fixed
+- Reducing image size by cleaning up python cache.
 
-## v0.0.3 Pre-Release (May 24, 2026)
-- Updating config.ini security file to allow for custom node installation.
+## [0.1.1] - 2026-06-08
+### Added
+- Adding a HealthCheck to DockerFile.
 
-## v0.0.2 Pre-Release (May 23, 2026)
-- Removed ComfyUI Manager Image creation in CI/CD Pipeline
+## [0.1.0] - 2026-06-08
+### Changed
+- Updated ComfyUI Version to 0.44.0.
+### Fixed
+- Fixed Custom Nodes not installing dependencies.
 
-## v0.0.1 Pre-Release (May 23, 2026)
-- Bumped Pytorch base image to 2.12.0, 13.0 & 9
-- Bumped ComfyUI Version to v0.22.0
-- Removed ComfyUI Manager standalone install as it's now bundled with ComfyUI
-- Updated dependencies 'libgl1' & 'libglx-mesa0' to replace 'libgl1-mesa-glx'
-- Updated Python install to include '--break-system-packages' flag due to Ubuntu 24.04 Python handling
-- Added additional model directories based on updated ComfyUI
-- Added '--enable-manager' flag to have ComfyUI Manager included on startup
+## [0.0.3] - 2026-05-25
+### Changed
+- Updated `entrypoint.sh` to include `--break-system-packages` to allow for python install of custom node requirements.
+- Updated `README.md` with information around custom nodes and settings to allow for custom node installation.
+
+## [0.0.2] - 2026-05-24
+### Changed
+- Updating CI/CD workflow to remove ComfyUI Manager Versions.
+
+## [0.0.1] - 2026-05-24
+### Added
+- Updated ComfyUI version to latest release.
+- Added additional model directories per ComfyUI latest.
+- Removed ComfyUI Manager install and setup as it's now included in ComfyUI.
+- Enabled ComfyUI manager as default.
+### Changed
+- Updated PyTorch base image to latest.
+- Fixed dependencies as PyTorch base image was changed to Ubuntu 24.04.
+- Updated Python dependencies.
 
 
 # Original Repo lecode-official/comfyui-docker
