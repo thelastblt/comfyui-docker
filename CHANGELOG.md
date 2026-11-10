@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.2.0] - 2026-11-10
+### Changed
+- Bumping ComfyUI Version to 0.45.0.
+
+## [1.1.1] - 2026-11-04
+### Added
+- Enabled network mode and implemented security changes to allow for custom node installation.
+
+## [1.1.0] - 2026-11-04
+### Changed
+- Updated ComfyUI Version to 0.44.0.
+### Fixed
+- Fixed issue where Custom Nodes were not installing dependencies.
+
+## [1.0.0] - 2026-10-31
+### Changed
+- Cleaned up the image and reduced the file size slightly.
+- Fixed small errors in the logs and brought the folder structure into dynamic alignment with ComfyUI.
+- Bumped PyTorch and ComfyUI versions to latest.
+### Fixed
+- Synced branch with main.
+- Reduced image size.
+
 ## [0.3.0] - 2026-06-24
 ### Added
 - Updated documentation to include workflows folder.
