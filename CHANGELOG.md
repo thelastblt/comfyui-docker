@@ -23,6 +23,33 @@
 - Synced branch with main.
 - Reduced image size.
 
+## [0.9.0] - 2026-10-01
+### Changed
+- Bump ComfyUI and PyTorch versions.
+
+## [0.8.0] - 2026-09-18
+### Changed
+- Bump PyTorch to 2.14.0 and ComfyUI to 0.36.0.
+
+## [0.7.0] - 2026-07-31
+### Changed
+- Bumping ComfyUI to v0.29.2.
+
+## [0.6.0] - 2026-07-19
+### Changed
+- Bump ComfyUI to v0.28.0.
+- Bump PyTorch to 2.13.0.
+
+## [0.5.0] - 2026-07-02
+### Changed
+- Bump ComfyUI to v.0.27.0.
+- Updated container image reference.
+
+## [0.4.0] - 2026-06-24
+### Changed
+- Updated build process to use a Python venv (ported from upstream `lecode-official/comfyui-docker`).
+- Updated container image reference.
+
 ## [0.3.0] - 2026-06-24
 ### Added
 - Updated documentation to include workflows folder.
