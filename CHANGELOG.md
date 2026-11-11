@@ -69,6 +69,7 @@
 ### [0.3.0] - 2026-06-24
 **Added**
 - Updated documentation to include workflows folder.
+
 **Changed**
 - Bumping ComfyUI Version to v0.26.0.
 
