@@ -19,7 +19,7 @@ This guide provides instructions for running and managing the ComfyUI Docker con
 
 ## 🚀 Getting Started
 
-### ⚡ Option 1: Instant Trial (Ephemeral)
+### ⚡ Option 1: Instant Trial (Testing)
 If you just want to test ComfyUI immediately without managing persistent data, run this command. 
 **Note:** All changes (models, nodes, workflows) will be lost once the container stops.
 
