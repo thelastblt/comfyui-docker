@@ -1,5 +1,6 @@
-> [!WARNING]
-> This read me is in the process of being rewritten.
+> [!CAUTION]
+> **⚠️ DOCUMENTATION IN PROGRESS**
+> This documentation is currently being updated. Please be aware that the information may not be current or fully reflect the latest project functionality.
 
 
 # ComfyUI Docker
@@ -110,6 +111,53 @@ If you are running a multi-GPU system and want to limit the container to specifi
   device_ids: ['0', '3']
   ```
 
+## ⚙️ Advanced Configuration
+This section is for users who need more control over the container's behavior, such as custom command-line arguments, specific image versions, or custom file paths.
+
+### 🛠️ Customizing ComfyUI Arguments
+You can pass additional command-line arguments directly to the ComfyUI process.
+
+Using Docker Run:
+Add your arguments to the end of your command. For example, to allow external web apps to connect:
+
+```shell
+docker run ... ghcr.io/thelastblt/comfyui-docker:latest --enable-cors-header <origin>
+```
+Using Docker Compose:
+Use the command key in your compose.yml file:
+```shell
+services:
+  comfyui:
+    # ... other settings
+    command: ["--enable-cors-header", "*"]
+```
+### 🌐 Environment Variables & .env
+The container supports several environment variables that can be set via your shell or a .env file to simplify your setup.
+
+| Variable | Description |
+| :--- | :--- |
+| `USER_ID` | Sets the user ID inside the container to match your host user. |
+| `GROUP_ID` | Sets the group ID inside the container to match your host group. |
+| `IMAGE_TAG` | Specifies the version of ComfyUI to use (e.g., `v1.2.0`). Defaults to `latest`. |
+| `MODELS_PATH` | Overrides the default `/opt/comfyui/models` directory. |
+| `CUSTOM_NODES_PATH` | Overrides the default `/opt/comfyui/custom_nodes` directory. |
+| `OUTPUT_PATH` | Overrides the default `/opt/comfyui/output` directory. |
+
+Example .env file:
+```yaml
+# User Permissions (Match your host user to avoid root-owned files)
+USER_ID=1000
+GROUP_ID=1000
+
+# Custom Storage Paths
+MODELS_PATH=/path/to/your/models
+CUSTOM_NODES_PATH=/path/to/your/custom_nodes
+OUTPUT_PATH=/path/to/your/output
+
+# Image Version
+IMAGE_TAG=latest
+```
+
 ## 🔄 Updates & Tags
 
 To keep your ComfyUI environment up to date, you should periodically pull the latest images.
@@ -202,59 +250,4 @@ docker run \
 This project is licensed under the **MIT License**. 
 
 *Note: ComfyUI and ComfyUI Manager are licensed under their respective licenses (GPL 3.0) as linked in the official repositories.*
-
-
-
----
-# Other Info
-If you want to pass additional command line arguments to ComfyUI, you can do so by specifying them as the command when starting the container. For example, if you want to allow external web apps to connect to ComfyUI in the container, you can add the `--enable-cors-header` argument like so:
-
-```shell
-docker run \
-    --name comfyui \
-    --detach \
-    --restart unless-stopped \
-    --env USER_ID="$(id -u)" \
-    --env GROUP_ID="$(id -g)" \
-    --volume "<path/to/models/folder>:/opt/comfyui/models:rw" \
-    --volume "<path/to/custom/nodes/folder>:/opt/comfyui/custom_nodes:rw" \
-    --volume "<path/to/output/folder>:/opt/comfyui/output:rw" \
-    --volume "<path/to/workflows/folder>:/opt/comfyui/user/default/workflows:rw" \
-    --publish 8188:8188 \
-    --runtime nvidia \
-    --gpus all \
-    ghcr.io/thelastblt/comfyui-docker:latest \
-    --enable-cors-header <origin>
-```
-
-You can change the paths to these directories using the `MODELS_PATH`, `CUSTOM_NODES_PATH`, and `OUTPUT_PATH` environment variables, respectively. To permanently set these environment variables, you can create a `.env` file alongside the [`compose.yml`](compose.yml) file with the following content:
-
-```shell
-MODELS_PATH=<path/to/models/folder>
-CUSTOM_NODES_PATH=<path/to/custom/nodes/folder>
-OUTPUT_PATH=<path/to/output/folder>
-```
-
-The Dockerfile uses the ComfyUI Docker image with the `latest` tag. A different tag can be specified using the `IMAGE_TAG` environment variable. Again, the image tag can be set permanently in a `.env` file. For a full list of the available image tags, please refer to the [image tags](#available-image-tags) section. Assuming you have already created a `.env` file, you can run the following command to use a specific release tag by appending the `IMAGE_TAG` variable to the existing `.env` file:
-
-```shell
-echo "IMAGE_TAG=<release-tag>" >> .env
-```
-
-Normally, the user inside a Docker container is `root`, which means that the files that are written from the container to the host system are also owned by `root`. To avoid this, ComfyUI Docker creates a new user inside the container. By default, running the Docker Compose file will create a user and group with the IDs `1000` and `1000`, respectively. Most Linux systems have the first user created with these IDs. If your user has different IDs, you can change them using the `USER_ID` and `GROUP_ID` environment variables. To permanently set these environment variables, you may again use a `.env` file alongside the `compose.yml` file to specify the correct IDs. You can find out your user and group IDs by running `id -u` and `id -g` in your terminal. Assuming you have already created a `.env` file, you can run the following commands to append the user and group IDs to the existing `.env` file:
-
-```shell
-echo "USER_ID=$(id -u)" >> .env
-echo "GROUP_ID=$(id -g)" >> .env
-```
-
-
-If you need to run ComfyUI with custom arguments using Docker Compose, you can do so by adding a `command` section to the ComfyUI service in the `compose.yml` file. For example, to allow external web apps to connect to ComfyUI in the container, you can add the `--enable-cors-header` argument:
-
-```yaml
-command: ["--enable-cors-header", "*"]
-```
-
-
-
 
