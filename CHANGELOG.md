@@ -20,6 +20,7 @@
 ### [1.1.0] - 2026-11-04
 **Changed**
 - Updated ComfyUI Version to 0.44.0.
+
 **Fixed**
 - Fixed issue where Custom Nodes were not installing dependencies.
 
@@ -28,6 +29,7 @@
 - Cleaned up the image and reduced the file size slightly.
 - Fixed small errors in the logs and brought the folder structure into dynamic alignment with ComfyUI.
 - Bumped PyTorch and ComfyUI versions to latest.
+
 **Fixed**
 - Synced branch with main.
 - Reduced image size.
@@ -89,6 +91,7 @@
 ### [0.1.0] - 2026-06-08
 **Changed**
 - Updated ComfyUI Version to 0.44.0.
+
 **Fixed**
 - Fixed Custom Nodes not installing dependencies.
 
@@ -107,6 +110,7 @@
 - Added additional model directories per ComfyUI latest.
 - Removed ComfyUI Manager install and setup as it's now included in ComfyUI.
 - Enabled ComfyUI manager as default.
+
 **Changed**
 - Updated PyTorch base image to latest.
 - Fixed dependencies as PyTorch base image was changed to Ubuntu 24.04.
