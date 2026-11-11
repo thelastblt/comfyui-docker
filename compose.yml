@@ -17,6 +17,7 @@ services:
       - ${CUSTOM_NODES_PATH:-${HOME}/.comfyui/custom-nodes}:/opt/comfyui/custom_nodes:rw
       - ${OUTPUT_PATH:-${HOME}/.comfyui/output}:/opt/comfyui/output:rw
       - ${WORKFLOWS_PATH:-${HOME}/.comfyui/workflows}:/opt/comfyui/user/default/workflows:rw" \
+    command: ["--enable-cors-header", "*"]
     deploy:
       resources:
         reservations:
