@@ -5,7 +5,7 @@
 
 # ComfyUI Docker
 
-A Docker container for [ComfyUI](https://github.com/Comfy-Org/ComfyUI). Designed for easy deployment in local Docker environments or on remote servers. The [ComfyUI Manager](https://github.com/Comfy-Org/ComfyUI-Manager) extension is included by default.
+A Docker image for [ComfyUI](https://github.com/Comfy-Org/ComfyUI). Designed for easy deployment in local Docker environments or on remote servers. The [ComfyUI Manager](https://github.com/Comfy-Org/ComfyUI-Manager) extension is included by default.
 
 ## 📋 Prerequisites
 Before running this container, ensure you have the following installed:
