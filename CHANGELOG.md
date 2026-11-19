@@ -9,6 +9,31 @@
 
 ## 🚀 Latest Updates
 
+### [2.0.1] - 2026-11-19
+**Fixed**
+- Missed a Python in the second stage build.
+
+### [2.0.0] - 2026-11-19
+**Changed**
+- Updated the base image to Ubuntu 26.04.
+- Allows for an update to Python 3.14 and reduces the overall image size.
+
+### [1.3.3] - 2026-11-19
+**Fixed**
+- Restore Python
+
+### [1.3.2] - 2026-11-19
+**Changed**
+- Cleanup dockerfile
+
+### [1.3.1] - 2026-11-19
+**Fixed**
+- Fix Github Workflow
+
+### [1.3.0] - 2026-11-19
+**Changed**
+- Update ComfyUI to 0.46.0
+
 ### [1.2.0] - 2026-11-10
 **Changed**
 - Bumping ComfyUI Version to 0.45.0.
