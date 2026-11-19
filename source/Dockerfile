@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # git: fetch ComfyUI; python3.12-venv: only needed to *create* the venv
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
-        python3.12-venv \
+        python3.13-venv \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -49,7 +49,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         gosu \
         curl \
-        python3.12-venv \
+        python3.13-venv \
         libgl1 \
         libglx-mesa0 \
         libglib2.0-0 \
