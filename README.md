@@ -195,9 +195,7 @@ This project follows [Semantic Versioning (SemVer)](https://semver.org/). We pro
 | Tag Pattern | Example | Description | Best For... |
 | :--- | :--- | :--- | :--- |
 | `latest` | `latest` | The most recent stable release. | Most up to date ComfyUI and Pytorch. |
-| `vX.Y.Z` | `v1.2.0` | A specific, exact version. | Absolute stability and reproducibility. |
-| `vX` | `v1` | The latest release within a major version. | Automatic minor/patch updates while avoiding breaking changes. |
-| `vX.Y` | `v1.2` | The latest release within a minor version. | Automatic patch updates while avoiding feature changes. |
+| `vX.Y.Z` | `v1.2.0` | A specific, exact version. | See the changelog/release notes for details. |
 
 
 > [!TIP]
