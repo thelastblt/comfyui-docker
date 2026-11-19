@@ -39,7 +39,6 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 # ---------- Stage 2: runtime ----------
 FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime
 
-ARG COMFYUI_VERSION=0.38.0
 ENV DEBIAN_FRONTEND=noninteractive \
     PATH="/opt/venv/bin:$PATH" \
     PYTHONUNBUFFERED=1
