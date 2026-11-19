@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
      
       # Logs in with the automatically generated GITHUB_TOKEN; the permissions above
       # allow it to publish packages, which are scoped to the triggering account
