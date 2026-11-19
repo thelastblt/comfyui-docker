@@ -30,8 +30,6 @@ jobs:
       packages: write
       attestations: write
       id-token: write
-      # Required to read/write the GitHub Actions build cache (type=gha)
-      actions: write
 
     steps:
       - name: Checkout Repository
@@ -76,8 +74,6 @@ jobs:
         with:
           context: source
           push: true
-          cache-from: type=gha,scope=${{ github.ref_name }}
-          cache-to: type=gha,mode=max,scope=${{ github.ref_name }}
           tags: ${{ steps.docker-image-metadata.outputs.tags }}
           labels: ${{ steps.docker-image-metadata.outputs.labels }}
 
