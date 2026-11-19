@@ -34,15 +34,15 @@ jobs:
       actions: write
 
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+      
       # Prints the dependency versions the image will be built with, so the release
       # log visibly records exactly what is being published
       - name: Show Dependency Versions
         run:
           grep -E '^ARG (COMFYUI_VERSION|PYTORCH_VERSION|CUDA_VERSION|CUDNN_VERSION)=' source/Dockerfile
      
-      - name: Checkout Repository
-        uses: actions/checkout@v6
-
       # Logs in with the automatically generated GITHUB_TOKEN; the permissions above
       # allow it to publish packages, which are scoped to the triggering account
       - name: Log in to the GitHub Container Registry
