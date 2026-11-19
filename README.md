@@ -198,7 +198,7 @@ This project follows [Semantic Versioning (SemVer)](https://semver.org/). We pro
 | `vX.Y.Z` | `v1.2.0` | A specific, exact version. | Absolute stability and reproducibility. |
 | `vX` | `v1` | The latest release within a major version. | Automatic minor/patch updates while avoiding breaking changes. |
 | `vX.Y` | `v1.2` | The latest release within a minor version. | Automatic patch updates while avoiding feature changes. |
-| `vX.Y.Z-legacy` | `v1.2.0-legacy` | A version optimized for older hardware/drivers. | Users on older systems who cannot run the latest dependencies. |
+
 
 > [!TIP]
 > **Pro-Tip:** For production or mission-critical workflows, it is highly recommended to use a specific version tag (e.g., `v1.2.0`) to ensure your environment remains identical across re-installs.
