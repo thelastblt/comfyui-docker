@@ -194,15 +194,9 @@ This project follows [Semantic Versioning (SemVer)](https://semver.org/). We pro
 
 | Tag Pattern | Example | Description | Best For... |
 | :--- | :--- | :--- | :--- |
-| `latest` | `latest` | The most recent stable release. | Most up to date ComfyUI and Pytorch. |
-| `vX.Y.Z` | `v1.2.0` | A specific, exact version. | See the changelog/release notes for details. |
+| `latest` | `latest` | The most recent stable release. | Most up to date ComfyUI. |
+| `vX.Y.Z` | `v1.2.0` | A specific, exact version. | Old ComfyUI and/or old image setups. See the changelog/release notes for details. |
 
-
-> [!TIP]
-> **Pro-Tip:** For production or mission-critical workflows, it is highly recommended to use a specific version tag (e.g., `v1.2.0`) to ensure your environment remains identical across re-installs.
-
-> [!WARNING]
-> I only do testing on the latest image tag. Typically that is running the latest stable version of ComfyUI and Pytorch/Cuda. If you run into issues running other tags, please open an issue.
 
 ## 🛠️ Building from Source
 
