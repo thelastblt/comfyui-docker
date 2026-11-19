@@ -59,7 +59,7 @@ jobs:
         id: docker-image-metadata
         uses: docker/metadata-action@v6
         with:
-          images: ghcr.io/${{ toLower(github.repository) }}
+          images: ghcr.io/${{github.repository}}
           tags: |
             type=semver,pattern={{version}}
           labels: |
@@ -86,6 +86,6 @@ jobs:
       - name: Generate Artifact Attestation
         uses: actions/attest-build-provenance@v4
         with:
-          subject-name: ghcr.io/${{ toLower(github.repository) }}
+          subject-name: ghcr.io/${{github.repository}}
           subject-digest: ${{ steps.build-and-push-docker-image.outputs.digest }}
           push-to-registry: true
