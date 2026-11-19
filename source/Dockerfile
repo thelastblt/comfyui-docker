@@ -7,7 +7,7 @@ FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION
 ARG COMFYUI_VERSION=0.46.0
 ENV DEBIAN_FRONTEND=noninteractive
 
-# git: fetch ComfyUI; python3.12-venv: only needed to *create* the venv
+# git: fetch ComfyUI; python3.13-venv: only needed to *create* the venv
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         python3.13-venv \
