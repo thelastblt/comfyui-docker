@@ -31,7 +31,6 @@ jobs:
       attestations: write
       id-token: write
       # Required to read/write the GitHub Actions build cache (type=gha)
-      actions: read
       actions: write
 
     steps:
