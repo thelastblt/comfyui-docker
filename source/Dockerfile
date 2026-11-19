@@ -1,16 +1,17 @@
 # ---------- Stage 1: builder ----------
-ARG PYTORCH_VERSION=2.15.0
-ARG CUDA_VERSION=13.4
-ARG CUDNN_VERSION=9
-FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime AS builder
+FROM ubuntu:26.04 AS builder
 
 ARG COMFYUI_VERSION=0.46.0
 ENV DEBIAN_FRONTEND=noninteractive
 
-# git: fetch ComfyUI; python3.12-venv: only needed to *create* the venv
+# git: fetch ComfyUI; python3.14-venv: only needed to *create* the venv.
+# ubuntu:26.04 ships no Python by default and no torch/CUDA — the venv is
+# fully self-contained (pip's torch wheels bundle the CUDA stack), so a
+# framework base image is no longer needed.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
-        python3.12-venv \
+        python3.14 \
+        python3.14-venv \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /build
@@ -24,12 +25,14 @@ RUN git clone --depth 1 --branch "v${COMFYUI_VERSION}" https://github.com/Comfy-
 # dependency check doesn't recognize torch that only lives in the base
 # image's site-packages, and the container will restart-loop with
 # "PyTorch is not installed".
+# python3.14 is named explicitly: the venv's interpreter is fixed at creation
+# time, so don't rely on the base image's default python.
 # BuildKit cache mount = fast rebuilds with zero image-size cost.
 # torchaudio: ComfyUI's requirements only install torch + torchvision, but
 # the Manager's PIPFixer requires the full trio (torch, torchvision,
 # torchaudio) and logs "PyTorch is not installed" on every start without it.
 RUN --mount=type=cache,target=/root/.cache/pip \
-    python -m venv /opt/venv \
+    python3.14 -m venv /opt/venv \
     && /opt/venv/bin/pip install --upgrade pip \
     && /opt/venv/bin/pip install \
         --requirement requirements.txt \
@@ -37,21 +40,23 @@ RUN --mount=type=cache,target=/root/.cache/pip \
         torchaudio
 
 # ---------- Stage 2: runtime ----------
-FROM pytorch/pytorch:${PYTORCH_VERSION}-cuda${CUDA_VERSION}-cudnn${CUDNN_VERSION}-runtime
+FROM ubuntu:26.04
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PATH="/opt/venv/bin:$PATH" \
     PYTHONUNBUFFERED=1
 
 # git: ComfyUI-Manager clones/updates custom nodes at runtime;
-# gosu: privilege drop; curl: healthcheck; lib*: headless OpenCV/glib deps
+# gosu: privilege drop; curl: healthcheck; lib*: headless OpenCV/glib deps.
+# libglib2.0-0t64 is the 26.04 name for libglib2.0-0 (time_t64 rename).
+# No python packages: the venv ships its own interpreter link and pip.
 RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         gosu \
         curl \
         libgl1 \
         libglx-mesa0 \
-        libglib2.0-0 \
+        libglib2.0-0t64 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -77,7 +82,6 @@ EXPOSE 8188
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
     CMD curl -fsSI http://localhost:8188/ || exit 1
 
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY --chmod=755 entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
